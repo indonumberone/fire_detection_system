@@ -29,15 +29,15 @@
 #define GAS_SAFE 1000          // Level gas aman
 #define GAS_WARNING 2000      // Level gas peringatan
 #define GAS_DANGER 3000       // Level gas bahaya
-#define GAS_CRITICAL 40000     // Level gas kritis
+#define GAS_CRITICAL 3500     // Level gas kritis
 
 #define FLAME_DEBOUNCE 3      // Jumlah minimal deteksi api untuk konfirmasi
 #define HIGH_RISK_TIME 5      // Jumlah interval untuk peringatan risiko tinggi
 
 
 
-char ssid[]="kelompok 4";
-char password[]="nopankebab";
+char ssid[]="TP-Link_AD7C";
+char password[]="88515762";
 char mqtt_user[] = "gebanglor";
 char mqtt_password[] = "pusatteknologi";
 
@@ -60,9 +60,9 @@ void vTaskACTION(void *param) {
   for (;;) {
     if (buzzerStatus == 1) { 
       for (int i = 0; i < 5; i++) {
-        tone(BUZZERPIN, 200);
-        vTaskDelay(400 / portTICK_PERIOD_MS);
         tone(BUZZERPIN, 800);
+        vTaskDelay(400 / portTICK_PERIOD_MS);
+        tone(BUZZERPIN, 0);
         vTaskDelay(400 / portTICK_PERIOD_MS);
       }
       tone(BUZZERPIN, 0);
@@ -167,16 +167,17 @@ void evalAverage() {
     buzzerStatus = 2;
   } else if (riskLevel >= 0.5) {
     systemStatus = "DANGER";
-    detailedStatus = "Kondisi berbahaya terdeteksi.";
+    detailedStatus = "Kondisi berbahaya.";
     buzzerStatus = 1;
   } else if (riskLevel >= 0.3) {
     systemStatus = "WARNING";
-    detailedStatus = "Peringatan untuk waspada.";
+    detailedStatus = "Waspada";
     buzzerStatus = 0;
     // enek sek salah 
   } else {
     systemStatus = "NORMAL";
-    detailedStatus = "Sistem beroperasi normal.";
+    detailedStatus = "Kondisi normal";
+    buzzerStatus = 0;
   }
 }
 
@@ -321,31 +322,10 @@ void vTaskMQTT(void *param) {
       reconnect();
     }
     client.loop();
-    evalAverage();
-    // Publikasi data sensor
-    client.publish("sensor/temperature", String(temperature).c_str());
-    client.publish("sensor/humidity", String(humidity).c_str());
-    client.publish("sensor/gas", String(gasLevel).c_str());
-    client.publish("sensor/flame", flameDetected ? "1" : "0");
-    
-    // Publikasi status sistem
-    client.publish("system/status", systemStatus.c_str());
-    client.publish("system/risk_level", String(riskLevel).c_str());
-    client.publish("system/detailed_status", detailedStatus.c_str());
-    
-    // Publikasi level risiko individual
-    client.publish("risk/temperature", String(evalTemp(temperature)).c_str());
-    client.publish("risk/humidity", String(evalHumidity(humidity)).c_str());
-    client.publish("risk/gas", String(evalGas(gasLevel)).c_str());
-
-    // Publish data
-    client.publish("sensor/temperature", String(temperature).c_str());
-    client.publish("sensor/humidity", String(humidity).c_str());
-    client.publish("sensor/gas", String(gasLevel).c_str());
-    client.publish("sensor/flame", flameDetected ? "1" : "0");
-
+      evalAverage();
      // Buat JSON dokumen utama
-    StaticJsonDocument<3072> doc;
+        DynamicJsonDocument doc(3072);
+
     
     // Menambahkan data sensor
     JsonObject sensor = doc.createNestedObject("sensor");
@@ -365,6 +345,7 @@ void vTaskMQTT(void *param) {
     risk["temperature_risk"] = evalTemp(temperature);
     risk["humidity_risk"] = evalHumidity(humidity);
     risk["gas_risk"] = evalGas(gasLevel);
+    
 
     char jsonBuffer[3072];
     serializeJson(doc, jsonBuffer);
