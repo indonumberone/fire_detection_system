@@ -59,7 +59,7 @@ PubSubClient client(espClient);
 void vTaskACTION(void *param) {
   for (;;) {
     if (buzzerStatus == 1) { 
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < 10; i++) {
         tone(BUZZERPIN, 800);
         vTaskDelay(400 / portTICK_PERIOD_MS);
         tone(BUZZERPIN, 0);
@@ -350,7 +350,7 @@ void vTaskMQTT(void *param) {
     char jsonBuffer[3072];
     serializeJson(doc, jsonBuffer);
     // Publikasi data dalam bentuk JSON
-    bool success = client.publish("system/data", jsonBuffer);
+    bool success = client.publish("system/data/ruangps", jsonBuffer);
 if (!success) {
     Serial.println("Failed to publish JSON data to MQTT");
 }

@@ -1,8 +1,10 @@
 import { downloadMediaMessage, getContentType } from "@whiskeysockets/baileys";
 import { app } from "../index.js";
+import { getData } from "./getData.js";
+import { returnMessage } from "./returnMessage.js";
 export default async function handler(sock, m) {
   const senderNumber = m.key.remoteJid;
-  console.log(m);
+  console.log(m.key);
   if (m.message) {
     m.mtype = getContentType(m.message);
     try {
@@ -67,6 +69,37 @@ export default async function handler(sock, m) {
           {
             reply("hallo");
           }
+          break;
+        case "cek":
+          {
+            // console.log(m.args[0]);
+            if (!m.args[0]) {
+              reply("isi format yang benar");
+            } else if (m.args[0].toUpperCase() === "PASCA") {
+              reply("Please Wait...");
+              const data = await getData("Pasca");
+              // console.log(data.data);
+              // console.log("bejir");
+              const { sensor, system_status, risk, tempat } = data.data;
+              const balas = await returnMessage(
+                sensor,
+                system_status,
+                risk,
+                tempat,
+                "PASCA"
+              );
+              console.log(data.data);
+              reply(balas);
+            }
+          }
+          break;
+        default:
+          reply(`
+cek data ?
+.cek <Room>
+example 
+.cek Pasca
+            `);
           break;
       }
     }

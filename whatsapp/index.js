@@ -92,14 +92,14 @@ async function start() {
         }
       }
       console.log("Connection update:", update);
-      webhook();
+      webhook(sock);
     }
   });
   sock.ev.on("messages.upsert", async (m) => {
     m.messages.forEach(async (message) => {
       await handler(sock, message);
       //   console.log(JSON.stringify(m, undefined, 2));
-      console.log("replying to", m.messages[0].key.remoteJid);
+      // console.log("replying to", m.messages[0].key.remoteJid);
     });
   });
   return sock;
