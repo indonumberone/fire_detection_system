@@ -59,19 +59,16 @@ PubSubClient client(espClient);
 void vTaskACTION(void *param) {
   for (;;) {
     if (buzzerStatus == 1) { 
-      for (int i = 0; i < 10; i++) {
         tone(BUZZERPIN, 800);
         vTaskDelay(400 / portTICK_PERIOD_MS);
         tone(BUZZERPIN, 0);
         vTaskDelay(400 / portTICK_PERIOD_MS);
-      }
-      tone(BUZZERPIN, 0);
     } else if (buzzerStatus == 2) { 
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < 15; i++) {
         tone(BUZZERPIN, 500);
-        vTaskDelay(800 / portTICK_PERIOD_MS);
+        vTaskDelay(500 / portTICK_PERIOD_MS);
         tone(BUZZERPIN, 1000);
-        vTaskDelay(800 / portTICK_PERIOD_MS);
+        vTaskDelay(500 / portTICK_PERIOD_MS);
       }
       tone(BUZZERPIN, 0);
     } else {
@@ -126,7 +123,7 @@ float evalHumidity(float hum) {
   
   // Menghitung risiko berdasarkan tingkat keanggotaan
   risk = max(max(veryLowMembership * 0.8, lowMembership * 0.4),
-             max(highMembership * 0.4, veryHighMembership * 0.8));
+             max(highMembership * 0.2, veryHighMembership * 0.1));
              
   return risk;
 }

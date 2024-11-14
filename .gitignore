@@ -1,2 +1,5 @@
 whatsapp/AUTH/
 whatsapp/node_modules/
+influxdb-data/
+node-red-data/
+grafana-data/
