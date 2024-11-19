@@ -14,7 +14,7 @@
 #define MQTT_SERVER "23.95.68.195"
 #define MQTT_PORT 1883
 
-// Batasan Sensor dan Fuzzy Logic
+// Batasan Sensor dan Fuzzy Logic ()
 #define TEMP_SAFE 25.0        // Suhu aman (Celsius)
 #define TEMP_WARNING 35.0     // Batas peringatan suhu
 #define TEMP_DANGER 45.0      // Batas bahaya suhu
@@ -35,9 +35,8 @@
 #define HIGH_RISK_TIME 5      // Jumlah interval untuk peringatan risiko tinggi
 
 
-
-char ssid[]="TP-Link_AD7C";
-char password[]="88515762";
+char ssid[]="kelompok 4";
+char password[]="nopankebab";
 char mqtt_user[] = "gebanglor";
 char mqtt_password[] = "pusatteknologi";
 
@@ -323,7 +322,7 @@ void vTaskMQTT(void *param) {
      // Buat JSON dokumen utama
         DynamicJsonDocument doc(3072);
 
-    
+    // client.publish("/ppppp", "hallo");
     // Menambahkan data sensor
     JsonObject sensor = doc.createNestedObject("sensor");
     sensor["temperature"] = temperature;
@@ -346,10 +345,15 @@ void vTaskMQTT(void *param) {
 
     char jsonBuffer[3072];
     serializeJson(doc, jsonBuffer);
+    size_t jsonSize = strlen(jsonBuffer);
+Serial.print("JSON size: ");
+Serial.println(jsonSize);
+    // Serial.println(jsonBuffer);
     // Publikasi data dalam bentuk JSON
-    bool success = client.publish("system/data/ruangps", jsonBuffer);
+    bool success = client.publish("system/ruangps", jsonBuffer);
 if (!success) {
-    Serial.println("Failed to publish JSON data to MQTT");
+    Serial.print("Failed to publish JSON data to MQTT: ");
+  Serial.println(client.state());
 }
     vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
