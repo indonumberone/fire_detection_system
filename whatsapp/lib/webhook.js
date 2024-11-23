@@ -2,7 +2,7 @@ import { app } from "../index.js";
 import { returnMessage } from "./returnMessage.js";
 // let i = 0;
 export const webhook = async (sock) => {
-  app.post("/webhook", async (err, req, res, next) => {
+  app.post("/webhook", async (req, res) => {
     try {
       if (
         !req.body ||

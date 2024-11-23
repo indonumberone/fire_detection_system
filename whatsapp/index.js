@@ -7,6 +7,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { webhook } from "./lib/webhook.js";
 import { rateLimit } from "express-rate-limit";
+import cors from "cors";
 
 const {
   default: makeWASocket,
@@ -105,6 +106,8 @@ async function start() {
   });
   return sock;
 }
+
+app.use(cors());
 const limiter = rateLimit({
   windowMs: 60 * 1000,
   limit: 20,

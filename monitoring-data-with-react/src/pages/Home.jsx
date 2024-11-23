@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Flame, Thermometer, Droplets, Radiation } from "lucide-react";
 import Header from "../Components/common/Header";
 import StatCard from "../Components/common/StatCard";
@@ -8,19 +8,25 @@ import Linechart2 from "../Components/chartandgraph/Linechart2";
 const Home = () => {
   const [isStatusView, setIsStatusView] = useState(false);
   const [liveData, setLiveData] = useState({});
-  const socket = new WebSocket("ws://192.168.166.101:1880/testing");
-
-  socket.onopen = () => {
-    console.log("Koonekkk boss");
-  };
-
-  socket.onmessage = (event) => {
-    const receivedData = JSON.parse(event.data);
-    setLiveData(receivedData);
-    console.log(liveData?.sensors.flame);
-  };
+  const socketRef = useRef(null);
+  console.log("jalannnnnnnnn woiiiii");
 
   useEffect(() => {
+    socketRef.current = new WebSocket("ws://node-red:1880/testing");
+
+    socketRef.current.onopen = () => {
+      console.log("Koneksi WebSocket berhasil!");
+    };
+
+    socketRef.current.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    socketRef.current.onmessage = (event) => {
+      const receivedData = JSON.parse(event.data);
+      setLiveData(receivedData);
+      console.log(receivedData?.sensors?.flame);
+    };
     const interval = setInterval(() => {
       setIsStatusView((prev) => !prev);
     }, 5000);

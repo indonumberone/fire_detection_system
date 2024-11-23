@@ -1,5 +1,5 @@
 // Membuat koneksi WebSocket ke server yang telah disediakan oleh Node-RED
-const socket = new WebSocket("ws://192.168.0.107:1880/testing");
+const socket = new WebSocket("ws://node-red:1880/testing");
 
 // Event listener untuk ketika koneksi berhasil dibuka
 socket.onopen = function (event) {

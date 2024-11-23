@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  bot:
+    build: ./whatsapp
+    container_name: wa-bot
+    restart: unless-stopped
+    ports:
+      - "3030:3030"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - nodered_influxdb_grafana
+    volumes:
+      - ./wa-bot-data:/usr/src/app
+
   node-red:
     image: nodered/node-red:latest
     container_name: node-red
@@ -9,14 +22,11 @@ services:
       - "1880:1880"
     volumes:
       - ./node-red-data:/data
-      - /usr/src/node-red/node_modules
     environment:
       - NODE_RED_ENABLE_PROJECTS=${NODE_RED_ENABLE_PROJECTS}
       - INFLUXDB_URL=http://influxdb:8086
     networks:
       - nodered_influxdb_grafana
-    command: >
-      sh -c "npm install node-red-contrib-influxdb && npm start -- --userDir /data"
 
   influxdb:
     image: influxdb:2.7
@@ -31,6 +41,8 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_INIT_ORG}
       - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_INIT_BUCKET}
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_INIT_ADMIN_TOKEN}
+      - INFLUXDB_HTTP_CORS_ENABLED=true
+      - INFLUXDB_HTTP_CORS_ORIGINS=*
     volumes:
       - ./influxdb-data:/var/lib/influxdb2
     networks:

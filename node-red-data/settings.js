@@ -198,10 +198,13 @@ module.exports = {
      * See https://github.com/troygoode/node-cors#configuration-options for
      * details on its contents. The following is a basic permissive set of options:
      */
-    //httpNodeCors: {
-    //    origin: "*",
-    //    methods: "GET,PUT,POST,DELETE"
-    //},
+    httpNodeCors: {
+        "origin": "*",
+        "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "preflightContinue": false,
+        "optionsSuccessStatus": 204
+    },
+
 
     /** If you need to set an http proxy please set an environment variable
      * called http_proxy (or HTTP_PROXY) outside of Node-RED in the operating system.
@@ -511,6 +514,7 @@ module.exports = {
      */
     functionGlobalContext: {
         // os:require('os'),
+         // websocketOut: require('websocket-out')
     },
 
     /** The maximum number of messages nodes will buffer internally as part of their
