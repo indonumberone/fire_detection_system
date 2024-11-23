@@ -6,9 +6,8 @@ export async function parseDataToChart(
   field,
   _measurement
 ) {
-  // Contoh parsing ke dalam format Chart.js
   const rows = await getData(time, range, field, _measurement);
-  // console.log(rows);
+  console.log(rows);
 
   const chartData = rows.map((row, index) => {
     let tanggal;
@@ -77,4 +76,4 @@ export async function parseDataToChart(
   return chartData;
 }
 
-// console.log(await parseDataToChart("60s", "7d", "gas", "gas", "sensors"));
+console.log(await parseDataToChart("60s", "7d", "gas", "gas_risk", "risks"));

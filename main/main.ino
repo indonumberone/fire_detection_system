@@ -24,8 +24,8 @@
 #define TEMP_DANGER 45.0    // Batas bahaya suhu
 #define TEMP_CRITICAL 55.0  // Batas kritis suhu
 
-#define HUM_VERY_LOW 20.0   // Kelembaban sangat rendah
-#define HUM_LOW 30.0        // Kelembaban rendah
+#define HUM_VERY_LOW 10   // Kelembaban sangat rendah
+#define HUM_LOW 20        // Kelembaban rendah
 #define HUM_OPTIMAL 50.0    // Kelembaban normal
 #define HUM_HIGH 70.0       // Kelembaban tinggi
 #define HUM_VERY_HIGH 90.0  // Kelembaban sangat tinggi2
@@ -211,8 +211,7 @@ float evalHumidity(float hum) {
   float veryHighMembership = calcMembership(hum, HUM_HIGH, HUM_VERY_HIGH, true);
 
   // Menghitung risiko berdasarkan tingkat keanggotaan
-  risk = max(max(veryLowMembership * 0.8, lowMembership * 0.4),
-             max(highMembership * 0.2, veryHighMembership * 0.1));
+  risk = max(veryLowMembership * 0.8, lowMembership * 0.2);
 
   return risk;
 }
@@ -239,7 +238,7 @@ void evalAverage() {
   float gasRisk = evalGas(gas_ppm);
 
   // Menghitung risiko keseluruhan dengan pembobotan dari hasil yang didapat
-  riskLevel = (tempRisk * 0.3 + humRisk * 0.2 + gasRisk * 0.5);
+  riskLevel = (tempRisk * 0.3 + humRisk * 0.1 + gasRisk * 0.6);
 
   // Meningkatkan risiko jika api terdeteksi
   if (flameDetected) {

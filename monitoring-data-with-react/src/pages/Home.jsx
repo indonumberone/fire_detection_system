@@ -4,6 +4,7 @@ import { Flame, Thermometer, Droplets, Radiation } from "lucide-react";
 import Header from "../Components/common/Header";
 import StatCard from "../Components/common/StatCard";
 import Linechart2 from "../Components/chartandgraph/Linechart2";
+import { Piechart } from "../Components/chartandgraph/Piechart";
 
 const Home = () => {
   const [isStatusView, setIsStatusView] = useState(false);
@@ -12,7 +13,7 @@ const Home = () => {
   console.log("jalannnnnnnnn woiiiii");
 
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://node-red:1880/testing");
+    socketRef.current = new WebSocket("ws://localhost:1880/testing");
 
     socketRef.current.onopen = () => {
       console.log("Koneksi WebSocket berhasil!");
@@ -58,7 +59,7 @@ const Home = () => {
       icon: Radiation,
       value: isStatusView
         ? liveData.risk?.gas_risk || "N/A"
-        : `${liveData.sensors?.gas || "N/A"} Ppm`,
+        : `${String(liveData.sensors?.gas) || "N/A"} Ppm`,
       color: "#F59E0B",
     },
     {
@@ -125,11 +126,14 @@ const Home = () => {
             color={"#ff0000"}
           />
           <Linechart2
-            title={"TEMPERATURE"}
-            field={"temperature"}
+            title={"GAS"}
+            field={"gas"}
             _measurement={"sensors"}
             color={"#00ff0d"}
           />
+        </div>
+        <div className="grid gap-3 mt-5">
+          <Piechart />
         </div>
       </main>
     </div>

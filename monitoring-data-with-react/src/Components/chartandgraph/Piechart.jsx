@@ -7,25 +7,49 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import { useState, useEffect } from "react";
+import { parseDataToPie } from "../../utils/parseDataToPie.js";
 
-const channelData = [
-  { name: "Organic Search", value: 4000 },
-  { name: "Paid Search", value: 3000 },
-  { name: "Direct", value: 2000 },
-  { name: "Social Media", value: 2780 },
-  { name: "Referral", value: 1890 },
-  { name: "Email", value: 2390 },
-];
-const COLORS = [
-  "#8884d8",
-  "#82ca9d",
-  "#ffc658",
-  "#ff8042",
-  "#0088FE",
-  "#00C49F",
-];
+// console.log(await parseDataToPie("60s", "7d", "gas", "gas_risk", "risks"));
+
+const label = ["gas_risk", "humidity_risk", "temperature_risk"];
 
 export const Piechart = () => {
+  const [dataList, setDataList] = useState([]);
+  const [time, setTime] = useState("10m");
+  const [range, setRange] = useState("8h");
+
+  const handleChangeTime = async (e) => {
+    e.preventDefault();
+    setTime(e.target.value);
+    console.log(time);
+  };
+
+  const handleChangeRange = async (e) => {
+    e.preventDefault();
+    setRange(e.target.value);
+    console.log(range);
+  };
+
+  const fetchData = async () => {
+    try {
+      const data = label.map((item) =>
+        parseDataToPie(time, range, item, item, "risks")
+      );
+      data.push(parseDataToPie(time, range, "flame", "flame", "sensors"));
+
+      const resolvedData = await Promise.all(data);
+      setDataList(resolvedData);
+      console.log(resolvedData);
+    } catch (error) {
+      console.error("Error fetching pie chart data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [time, range]);
+
   return (
     <motion.div
       className="bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-lg shadow-lg rounded-xl p-6 border border-gray-700"
@@ -33,14 +57,46 @@ export const Piechart = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
     >
-      <h2 className="text-xl font-semibold text-gray-100 mb-4">
-        Channel Performance
-      </h2>
+      <div className="flex justify-between mb-6">
+        <h2 className="text-xl font-semibold flex text-gray-100">sdsdsd</h2>
+        <div>
+          <select
+            className="bg-gray-700 text-white rounded-md mx-2 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => handleChangeRange(e)}
+          >
+            <option value="1" selected disabled>
+              Select Range
+            </option>
+            <option value={"1h"}>1 hour </option>
+            <option value={"3h"}>3 hour </option>
+            <option value={"5h"}>5 hour </option>
+            <option value={"8h"}>8 hour </option>
+            <option value={"12h"}>12 hour </option>
+            <option value={"1d"}>1 day </option>
+            <option value={"7d"}>7 day</option>
+            <option value={"30d"}>30 day</option>
+          </select>
+          <select
+            className="bg-gray-700 text-white rounded-md mx-2 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => handleChangeTime(e)}
+          >
+            <option value="1" selected disabled>
+              Select Time
+            </option>
+            <option value={"60s"}>1 minute</option>
+            <option value={"5m"}>5 minute </option>
+            <option value={"10m"}>10 minute </option>
+            <option value={"15m"}>15 minute </option>
+            <option value={"30m"}>30 minute </option>
+            <option value={"1h"}>1 hour </option>
+          </select>
+        </div>
+      </div>
       <div style={{ width: "100%", height: 300 }}>
         <ResponsiveContainer>
           <PieChart>
             <Pie
-              data={channelData}
+              data={dataList}
               cx="50%"
               cy="50%"
               outerRadius={80}
@@ -50,11 +106,8 @@ export const Piechart = () => {
                 `${name} ${(percent * 100).toFixed(0)}%`
               }
             >
-              {channelData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
+              {dataList.map((value, index) => (
+                <Cell key={`cell-${index}`} fill={value.color} />
               ))}
             </Pie>
             <Tooltip
