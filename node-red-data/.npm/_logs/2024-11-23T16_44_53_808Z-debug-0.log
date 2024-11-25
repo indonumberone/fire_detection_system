@@ -1,0 +1,120 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.18.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/usr/src/node-red/.npmrc
+5 silly config load:file:/usr/local/etc/npmrc
+6 verbose title npm install wscat
+7 verbose argv "install" "--global" "wscat"
+8 verbose logfile logs-max:10 dir:/data/.npm/_logs/2024-11-23T16_44_53_808Z-
+9 verbose logfile /data/.npm/_logs/2024-11-23T16_44_53_808Z-debug-0.log
+10 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+11 silly logfile done cleaning log files
+12 silly idealTree buildDeps
+13 silly fetch manifest wscat@*
+14 silly packumentCache full:https://registry.npmjs.org/wscat cache-miss
+15 http fetch GET 200 https://registry.npmjs.org/npm 466ms
+16 http fetch GET 200 https://registry.npmjs.org/wscat 965ms (cache miss)
+17 silly packumentCache full:https://registry.npmjs.org/wscat set size:undefined disposed:false
+18 silly placeDep ROOT wscat@6.0.1 OK for:  want: *
+19 silly fetch manifest commander@^12.1.0
+20 silly packumentCache full:https://registry.npmjs.org/commander cache-miss
+21 silly fetch manifest https-proxy-agent@^7.0.5
+22 silly packumentCache full:https://registry.npmjs.org/https-proxy-agent cache-miss
+23 silly fetch manifest read@^4.0.0
+24 silly packumentCache full:https://registry.npmjs.org/read cache-miss
+25 silly fetch manifest ws@^8.0.0
+26 silly packumentCache full:https://registry.npmjs.org/ws cache-miss
+27 http fetch GET 200 https://registry.npmjs.org/https-proxy-agent 115ms (cache miss)
+28 silly packumentCache full:https://registry.npmjs.org/https-proxy-agent set size:undefined disposed:false
+29 http fetch GET 200 https://registry.npmjs.org/commander 233ms (cache miss)
+30 silly packumentCache full:https://registry.npmjs.org/commander set size:undefined disposed:false
+31 http fetch GET 200 https://registry.npmjs.org/read 379ms (cache miss)
+32 silly packumentCache full:https://registry.npmjs.org/read set size:undefined disposed:false
+33 http fetch GET 200 https://registry.npmjs.org/ws 395ms (cache miss)
+34 silly packumentCache full:https://registry.npmjs.org/ws set size:undefined disposed:false
+35 silly fetch manifest bufferutil@^4.0.1
+36 silly packumentCache full:https://registry.npmjs.org/bufferutil cache-miss
+37 http fetch GET 200 https://registry.npmjs.org/bufferutil 111ms (cache miss)
+38 silly packumentCache full:https://registry.npmjs.org/bufferutil set size:undefined disposed:false
+39 silly fetch manifest utf-8-validate@>=5.0.2
+40 silly packumentCache full:https://registry.npmjs.org/utf-8-validate cache-miss
+41 http fetch GET 200 https://registry.npmjs.org/utf-8-validate 82ms (cache miss)
+42 silly packumentCache full:https://registry.npmjs.org/utf-8-validate set size:undefined disposed:false
+43 silly placeDep node_modules/wscat commander@12.1.0 OK for: wscat@6.0.1 want: ^12.1.0
+44 silly placeDep node_modules/wscat https-proxy-agent@7.0.5 OK for: wscat@6.0.1 want: ^7.0.5
+45 silly placeDep node_modules/wscat read@4.0.0 OK for: wscat@6.0.1 want: ^4.0.0
+46 silly placeDep node_modules/wscat ws@8.18.0 OK for: wscat@6.0.1 want: ^8.0.0
+47 silly fetch manifest agent-base@^7.0.2
+48 silly packumentCache full:https://registry.npmjs.org/agent-base cache-miss
+49 silly fetch manifest debug@4
+50 silly packumentCache full:https://registry.npmjs.org/debug cache-miss
+51 silly fetch manifest mute-stream@^2.0.0
+52 silly packumentCache full:https://registry.npmjs.org/mute-stream cache-miss
+53 http fetch GET 200 https://registry.npmjs.org/mute-stream 75ms (cache miss)
+54 silly packumentCache full:https://registry.npmjs.org/mute-stream set size:undefined disposed:false
+55 http fetch GET 200 https://registry.npmjs.org/debug 99ms (cache miss)
+56 silly packumentCache full:https://registry.npmjs.org/debug set size:undefined disposed:false
+57 http fetch GET 200 https://registry.npmjs.org/agent-base 106ms (cache miss)
+58 silly packumentCache full:https://registry.npmjs.org/agent-base set size:undefined disposed:false
+59 silly placeDep node_modules/wscat agent-base@7.1.1 OK for: https-proxy-agent@7.0.5 want: ^7.0.2
+60 silly placeDep node_modules/wscat debug@4.3.7 OK for: https-proxy-agent@7.0.5 want: 4
+61 silly fetch manifest debug@^4.3.4
+62 silly packumentCache full:https://registry.npmjs.org/debug cache-miss
+63 silly fetch manifest ms@^2.1.3
+64 silly packumentCache full:https://registry.npmjs.org/ms cache-miss
+65 http fetch GET 200 https://registry.npmjs.org/debug 9ms (cache hit)
+66 silly packumentCache full:https://registry.npmjs.org/debug set size:188929 disposed:false
+67 http fetch GET 200 https://registry.npmjs.org/ms 81ms (cache miss)
+68 silly packumentCache full:https://registry.npmjs.org/ms set size:undefined disposed:false
+69 silly placeDep node_modules/wscat ms@2.1.3 OK for: debug@4.3.7 want: ^2.1.3
+70 silly placeDep node_modules/wscat mute-stream@2.0.0 OK for: read@4.0.0 want: ^2.0.0
+71 silly reify moves {}
+72 verbose stack Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/wscat'
+72 verbose stack     at async mkdir (node:internal/fs/promises:858:10)
+72 verbose stack     at async /usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:624:20
+72 verbose stack     at async Promise.allSettled (index 0)
+72 verbose stack     at async [reifyPackages] (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:325:11)
+72 verbose stack     at async Arborist.reify (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:142:5)
+72 verbose stack     at async Install.exec (/usr/local/lib/node_modules/npm/lib/commands/install.js:150:5)
+72 verbose stack     at async Npm.exec (/usr/local/lib/node_modules/npm/lib/npm.js:207:9)
+72 verbose stack     at async module.exports (/usr/local/lib/node_modules/npm/lib/cli/entry.js:74:5)
+73 error code EACCES
+74 error syscall mkdir
+75 error path /usr/local/lib/node_modules/wscat
+76 error errno -13
+77 error Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/wscat'
+77 error     at async mkdir (node:internal/fs/promises:858:10)
+77 error     at async /usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:624:20
+77 error     at async Promise.allSettled (index 0)
+77 error     at async [reifyPackages] (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:325:11)
+77 error     at async Arborist.reify (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:142:5)
+77 error     at async Install.exec (/usr/local/lib/node_modules/npm/lib/commands/install.js:150:5)
+77 error     at async Npm.exec (/usr/local/lib/node_modules/npm/lib/npm.js:207:9)
+77 error     at async module.exports (/usr/local/lib/node_modules/npm/lib/cli/entry.js:74:5) {
+77 error   errno: -13,
+77 error   code: 'EACCES',
+77 error   syscall: 'mkdir',
+77 error   path: '/usr/local/lib/node_modules/wscat'
+77 error }
+78 error
+78 error The operation was rejected by your operating system.
+78 error It is likely you do not have the permissions to access this file as the current user
+78 error
+78 error If you believe this might be a permissions issue, please double-check the
+78 error permissions of the file and its containing directories, or try running
+78 error the command again as root/Administrator.
+79 silly unfinished npm timer reify 1732380293982
+80 silly unfinished npm timer reify:createSparse 1732380295805
+81 verbose cwd /usr/src/node-red
+82 verbose os Linux 6.11.9-arch1-1
+83 verbose node v20.18.0
+84 verbose npm  v10.8.2
+85 notice
+85 notice New [33mminor[39m version of npm available! [33m10.8.2[39m -> [34m10.9.1[39m
+85 notice Changelog: [34mhttps://github.com/npm/cli/releases/tag/v10.9.1[39m
+85 notice To update run: [4mnpm install -g npm@10.9.1[24m
+85 notice  { force: true, [Symbol(proc-log.meta)]: true }
+86 verbose exit -13
+87 verbose code -13
+88 error A complete log of this run can be found in: /data/.npm/_logs/2024-11-23T16_44_53_808Z-debug-0.log
