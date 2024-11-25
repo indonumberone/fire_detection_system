@@ -7,6 +7,7 @@ import Linechart2 from "../Components/chartandgraph/Linechart2";
 import { Piechart } from "../Components/chartandgraph/Piechart";
 import Histogram2 from "../Components/chartandgraph/Histogram2";
 import Histogram from "../Components/chartandgraph/Histogram";
+import Table from "../Components/chartandgraph/Table";
 const Home = () => {
   const [isStatusView, setIsStatusView] = useState(false);
   const [liveData, setLiveData] = useState({});
@@ -109,8 +110,8 @@ const Home = () => {
         {/* CHARTS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Linechart2
-            title={"GAS"}
-            field={"gas"}
+            title={"FLAME API"}
+            field={"flame"}
             _measurement={"sensors"}
             color={"#b300ff"}
           />
@@ -134,8 +135,11 @@ const Home = () => {
           />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-5">
-          <Piechart />
+          <Piechart title={"Risk Levels"} />
           <Histogram />
+        </div>
+        <div className="mt-5">
+          <Table title={"Table Status"} />
         </div>
       </main>
     </div>

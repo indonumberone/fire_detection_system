@@ -14,7 +14,7 @@ import { parseDataToPie } from "../../utils/parseDataToPie.js";
 
 const label = ["gas_risk", "humidity_risk", "temperature_risk"];
 
-export const Piechart = () => {
+export const Piechart = ({ title }) => {
   const [dataList, setDataList] = useState([]);
   const [time, setTime] = useState("10m");
   const [range, setRange] = useState("8h");
@@ -58,7 +58,7 @@ export const Piechart = () => {
       transition={{ delay: 0.3 }}
     >
       <div className="flex justify-between mb-6">
-        <h2 className="text-xl font-semibold flex text-gray-100">sdsdsd</h2>
+        <h2 className="text-xl font-semibold flex text-gray-100">{title}</h2>
         <div>
           <select
             className="bg-gray-700 text-white rounded-md mx-2 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"

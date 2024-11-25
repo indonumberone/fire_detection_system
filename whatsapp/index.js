@@ -8,6 +8,7 @@ import bodyParser from "body-parser";
 import { webhook } from "./lib/webhook.js";
 import { rateLimit } from "express-rate-limit";
 import cors from "cors";
+import "dotenv/config";
 
 const {
   default: makeWASocket,
@@ -71,8 +72,9 @@ async function start() {
   sock.ev.on("creds.update", saveCreds);
 
   if (!sock.authState.creds.registered) {
-    const phoneNumber = await question("Enter your active whatsapp number: ");
-    const code = await sock.requestPairingCode(phoneNumber);
+    // const phoneNumber = await question("Enter your active whatsapp number: ");
+    const code = await sock.requestPairingCode(process.env.PHONE);
+    // const code = await sock.requestPairingCode(phoneNumber);
     console.log(`Pairing with this code: ${code}`);
   }
 
