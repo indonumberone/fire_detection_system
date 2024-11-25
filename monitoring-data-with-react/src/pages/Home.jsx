@@ -5,7 +5,8 @@ import Header from "../Components/common/Header";
 import StatCard from "../Components/common/StatCard";
 import Linechart2 from "../Components/chartandgraph/Linechart2";
 import { Piechart } from "../Components/chartandgraph/Piechart";
-
+import Histogram2 from "../Components/chartandgraph/Histogram2";
+import Histogram from "../Components/chartandgraph/Histogram";
 const Home = () => {
   const [isStatusView, setIsStatusView] = useState(false);
   const [liveData, setLiveData] = useState({});
@@ -132,8 +133,9 @@ const Home = () => {
             color={"#00ff0d"}
           />
         </div>
-        <div className="grid gap-3 mt-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-5">
           <Piechart />
+          <Histogram />
         </div>
       </main>
     </div>

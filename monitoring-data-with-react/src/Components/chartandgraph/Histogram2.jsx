@@ -44,8 +44,8 @@ export default function Histogram2() {
             />
             <Legend />
             <Bar dataKey="sales" fill="#8B5CF6" />
-            <Bar dataKey="revenue" fill="#10B981" />
-            <Bar dataKey="profit" fill="#F59E0B" />
+            {/* <Bar dataKey="revenue" fill="#10B981" />
+            <Bar dataKey="profit" fill="#F59E0B" /> */}
           </BarChart>
         </ResponsiveContainer>
       </div>

@@ -12,7 +12,7 @@ services:
     networks:
       - nodered_influxdb_grafana
     volumes:
-      - ./wa-bot-data:/usr/src/app
+      - ./whatsapp:/usr/src/app
 
   node-red:
     image: nodered/node-red:latest

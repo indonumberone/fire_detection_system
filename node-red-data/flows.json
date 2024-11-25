@@ -90,7 +90,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 130,
-        "y": 900,
+        "y": 960,
         "wires": [
             [
                 "e620b87853cd0807"
@@ -105,7 +105,7 @@
         "statusCode": "200",
         "headers": {},
         "x": 550,
-        "y": 900,
+        "y": 960,
         "wires": []
     },
     {
@@ -121,7 +121,7 @@
         "finalize": "",
         "libs": [],
         "x": 340,
-        "y": 900,
+        "y": 960,
         "wires": [
             [
                 "87f55052e49a37f7"
@@ -149,7 +149,8 @@
                 "6a60ea4cbfa07f6d",
                 "f89f99f4bb4f46da",
                 "53bee521d8c535f5",
-                "7035f036284b2e9d"
+                "7035f036284b2e9d",
+                "95b9d1084e805bc6"
             ]
         ]
     },
@@ -167,7 +168,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 860,
-        "y": 680,
+        "y": 740,
         "wires": []
     },
     {
@@ -183,7 +184,7 @@
         "finalize": "",
         "libs": [],
         "x": 340,
-        "y": 680,
+        "y": 740,
         "wires": [
             [
                 "ea6e3415fcc892e5"
@@ -209,7 +210,7 @@
         "server": "4a75c3058d5288a0",
         "client": "",
         "x": 570,
-        "y": 620,
+        "y": 680,
         "wires": []
     },
     {
@@ -229,7 +230,7 @@
         "senderr": false,
         "headers": [],
         "x": 570,
-        "y": 800,
+        "y": 860,
         "wires": [
             [
                 "386621c81522dd0f"
@@ -250,7 +251,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 880,
-        "y": 800,
+        "y": 860,
         "wires": []
     },
     {
@@ -266,7 +267,7 @@
         "finalize": "",
         "libs": [],
         "x": 340,
-        "y": 800,
+        "y": 860,
         "wires": [
             [
                 "d1a6febca49de098"
@@ -278,7 +279,7 @@
         "type": "function",
         "z": "7ccb3cdf93986cee",
         "name": "function 9",
-        "func": "// Ambil payload JSON dari MQTT\nlet payload = msg.payload;\n\n// Memecah menjadi dua objek: sensor dan risk\nlet sensorData = {\n    temperature: payload.sensor.temperature,\n    humidity: payload.sensor.humidity,\n    gas: payload.sensor.gas,\n    flame: payload.sensor.flame\n};\n\nlet riskData = {\n    temperature_risk: payload.risk.temperature_risk,\n    humidity_risk: payload.risk.humidity_risk,\n    gas_risk: payload.risk.gas_risk\n};\n\n// Membuat dua pesan output: satu untuk sensor dan satu untuk risk\nlet sensorMsg = { payload: sensorData };\n\n// Mengirimkan dua pesan tersebut\nreturn [sensorMsg];\n",
+        "func": "\nlet payload = msg.payload;\n\nlet sensorData = {\n    temperature: payload.sensor.temperature,\n    humidity: payload.sensor.humidity,\n    gas: payload.sensor.gas,\n    flame: payload.sensor.flame\n};\n\nlet sensorMsg = { payload: sensorData };\n\nreturn [sensorMsg];\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -362,11 +363,65 @@
         "finalize": "",
         "libs": [],
         "x": 350,
-        "y": 620,
+        "y": 680,
         "wires": [
             [
                 "067e6add80487a34"
             ]
         ]
+    },
+    {
+        "id": "95b9d1084e805bc6",
+        "type": "function",
+        "z": "7ccb3cdf93986cee",
+        "name": "function 12",
+        "func": "\nlet payload = msg.payload;\n\nlet system_status = {\n    status: payload.system_status.status,\n    risk_level: payload.system_status.risk_level,\n    detailed_status: payload.system_status.detailed_status,\n};\n\nlet sensorMsg = { payload: system_status };\n\nreturn [sensorMsg];\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 620,
+        "wires": [
+            [
+                "47a39d7d961a0905"
+            ]
+        ]
+    },
+    {
+        "id": "47a39d7d961a0905",
+        "type": "influxdb out",
+        "z": "7ccb3cdf93986cee",
+        "influxdb": "7ef122a97c15d252",
+        "name": "system_status",
+        "measurement": "system_status",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "hfs",
+        "bucket": "mydatabase",
+        "x": 600,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "c95d6ad0b3e8190b",
+        "type": "debug",
+        "z": "7ccb3cdf93986cee",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 620,
+        "wires": []
     }
 ]
