@@ -1,20 +1,17 @@
-# Menggunakan Node.js sebagai base image
-FROM node:16
+FROM node:18-alpine
 
-# Mengatur direktori kerja dalam container
-WORKDIR /app
+WORKDIR /home/nodejs/app
 
-# Menyalin file package.json dan package-lock.json
 COPY package*.json ./
 
-# Menginstal dependensi npm
-RUN npm install
+RUN npm install --production && npm cache clean --force
 
-# Menyalin semua file proyek ke dalam container
 COPY . .
 
-# Mengekspos port 3030 untuk Express
+RUN addgroup -S nodejs && adduser -S nodejs -G nodejs && chown -R nodejs:nodejs /home/nodejs
+
+USER nodejs
+
 EXPOSE 3030
 
-# Menjalankan aplikasi dengan npm start
 CMD ["npm", "start"]
