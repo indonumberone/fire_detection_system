@@ -7,7 +7,7 @@ import Linechart2 from "../Components/chartandgraph/Linechart2";
 import { Piechart } from "../Components/chartandgraph/Piechart";
 import Histogram2 from "../Components/chartandgraph/Histogram2";
 import Histogram from "../Components/chartandgraph/Histogram";
-import Table from "../Components/chartandgraph/Table";
+import {TableRisk} from "../Components/chartandgraph/TableRisk";
 const Home = () => {
   const [isStatusView, setIsStatusView] = useState(false);
   const [liveData, setLiveData] = useState({});
@@ -139,7 +139,7 @@ const Home = () => {
           <Histogram />
         </div>
         <div className="mt-5">
-          <Table title={"Table Status"} />
+          <TableRisk title={"Table Status"} />
         </div>
       </main>
     </div>
