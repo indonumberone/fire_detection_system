@@ -84,13 +84,13 @@
         "id": "5ce44b1768d4da31",
         "type": "http in",
         "z": "7ccb3cdf93986cee",
-        "name": "tes",
+        "name": "getDataPasca",
         "url": "/getDataPasca",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 130,
-        "y": 960,
+        "x": 390,
+        "y": 940,
         "wires": [
             [
                 "e620b87853cd0807"
@@ -104,15 +104,15 @@
         "name": "ok",
         "statusCode": "200",
         "headers": {},
-        "x": 550,
-        "y": 960,
+        "x": 790,
+        "y": 940,
         "wires": []
     },
     {
         "id": "e620b87853cd0807",
         "type": "function",
         "z": "7ccb3cdf93986cee",
-        "name": "function 6",
+        "name": " getDataPasca",
         "func": "let data = flow.get(\"DATA\");\nif (data) {\n    data.tempat = {\n        \"ruang\": \"pasca 01.03\",\n        \"lantai\": 1\n    };\n    msg.payload = data;  \n} else {\n    msg.payload = { error: \"Sensor data not available\" };  // Jika data tidak ada\n}\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
@@ -120,8 +120,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 960,
+        "x": 600,
+        "y": 940,
         "wires": [
             [
                 "87f55052e49a37f7"
@@ -149,7 +149,8 @@
                 "6a60ea4cbfa07f6d",
                 "f89f99f4bb4f46da",
                 "53bee521d8c535f5",
-                "7035f036284b2e9d"
+                "7035f036284b2e9d",
+                "95b9d1084e805bc6"
             ]
         ]
     },
@@ -188,17 +189,6 @@
             [
                 "ea6e3415fcc892e5"
             ]
-        ]
-    },
-    {
-        "id": "3cb455165ebbdfbc",
-        "type": "websocket in",
-        "z": "7ccb3cdf93986cee",
-        "name": "",
-        "x": 100,
-        "y": 1180,
-        "wires": [
-            []
         ]
     },
     {
@@ -257,7 +247,7 @@
         "id": "53bee521d8c535f5",
         "type": "function",
         "z": "7ccb3cdf93986cee",
-        "name": "function 8",
+        "name": "Http post",
         "func": "let data = flow.get(\"DATA\");\nif (data.system_status.status == \"DANGER\" || data.system_status.status == \"CRITICAL\" || data.system_status.status == \"WARNING\") {\n    data.tempat = {\n        \"ruang\": \"pasca 01.03\",\n        \"lantai\": 1\n    };\n    msg.payload = data; \n    msg.payload = data;\n    return msg;\n} \n\n",
         "outputs": 1,
         "timeout": 0,
@@ -277,7 +267,7 @@
         "id": "797152397adca53f",
         "type": "function",
         "z": "7ccb3cdf93986cee",
-        "name": "function 9",
+        "name": "Send Sensors",
         "func": "\nlet payload = msg.payload;\n\nlet sensorData = {\n    temperature: payload.sensor.temperature,\n    humidity: payload.sensor.humidity,\n    gas: payload.sensor.gas,\n    flame: payload.sensor.flame\n};\n\nlet sensorMsg = { payload: sensorData };\n\nreturn [sensorMsg];\n",
         "outputs": 1,
         "timeout": 0,
@@ -285,7 +275,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
+        "x": 360,
         "y": 500,
         "wires": [
             [
@@ -297,7 +287,7 @@
         "id": "f89f99f4bb4f46da",
         "type": "function",
         "z": "7ccb3cdf93986cee",
-        "name": "function 10",
+        "name": "Send Risks",
         "func": "let payload = msg.payload;\n\nlet sensorData = {\n    temperature: payload.sensor.temperature,\n    humidity: payload.sensor.humidity,\n    gas: payload.sensor.gas,\n    flame: payload.sensor.flame\n};\n\nlet riskData = {\n    temperature_risk: payload.risk.temperature_risk,\n    humidity_risk: payload.risk.humidity_risk,\n    gas_risk: payload.risk.gas_risk\n};\n\n\nlet riskMsg = { payload: riskData };\n\nreturn [riskMsg];\n",
         "outputs": 1,
         "timeout": 0,
@@ -353,7 +343,7 @@
         "id": "7035f036284b2e9d",
         "type": "function",
         "z": "7ccb3cdf93986cee",
-        "name": "function 11",
+        "name": "Web socket",
         "func": "let payload = msg.payload;\n\n\nlet temperatureRisk = payload.risk.temperature_risk < 0.5 ? \"Normal\": \"Warning\"\nlet humidityRisk = payload.risk.humidity_risk < 0.5 ? \"Normal\" : \"Warning\"\nlet gasRisk = payload.risk.gas_risk < 0.5 ? \"Normal\" : \"Warning\"\nlet fire = payload.sensor.flame == 0 ? \"Normal\" : \"Warning\"\nlet data = {\n    sensors:{\n    temperature: payload.sensor.temperature,\n    humidity: payload.sensor.humidity,\n    gas: payload.sensor.gas,\n    flame: payload.sensor.flame\n    },\n    risk:{\n        temperature_risk: temperatureRisk,\n        humidity_risk: humidityRisk,\n        gas_risk: gasRisk,\n        flame_risk: fire\n    },\n};\n\n\nreturn { payload: data };\n",
         "outputs": 1,
         "timeout": 0,
@@ -373,7 +363,7 @@
         "id": "95b9d1084e805bc6",
         "type": "function",
         "z": "7ccb3cdf93986cee",
-        "name": "function 12",
+        "name": "Send system status ",
         "func": "\nlet payload = msg.payload;\n\nlet system_status = {\n    status: payload.system_status.status,\n    risk_level: payload.system_status.risk_level,\n    detailed_status: payload.system_status.detailed_status,\n};\n\nlet sensorMsg = { payload: system_status };\n\nreturn [sensorMsg];\n",
         "outputs": 1,
         "timeout": 0,
@@ -381,7 +371,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
+        "x": 370,
         "y": 620,
         "wires": [
             [
