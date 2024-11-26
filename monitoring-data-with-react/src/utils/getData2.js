@@ -3,7 +3,7 @@ import { InfluxDB } from "@influxdata/influxdb-client";
 const token = "tokenrahasia";
 const org = "hfs";
 const bucket = "mydatabase";
-const url = "http://localhost:8086";
+const url = "http://34.142.249.25:8086";
 
 const influxDB = new InfluxDB({ url, token });
 

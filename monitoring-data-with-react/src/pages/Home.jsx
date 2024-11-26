@@ -15,7 +15,7 @@ const Home = () => {
   console.log("jalannnnnnnnn woiiiii");
 
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://localhost:1880/testing");
+    socketRef.current = new WebSocket("ws://34.142.249.25:1880/testing");
 
     socketRef.current.onopen = () => {
       console.log("Koneksi WebSocket berhasil!");

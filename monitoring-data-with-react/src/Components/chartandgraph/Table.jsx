@@ -37,6 +37,17 @@ const OrdersTable = ({ title }) => {
     setTime(e.target.value);
   };
 
+  // const filterOrders = (term, data) => {
+  //   const filtered = data.filter((order) => {
+  //     const matchesTerm = term
+  //       ? order.status.toLowerCase().includes(term) ||
+  //         order.date.toLowerCase().includes(term) ||
+  //         order.time.toLowerCase().includes(term)
+  //       : true;
+  //     return matchesTerm;
+  //   });
+  //   setFilteredOrders(filtered);
+  // };
   const filterOrders = (term, data) => {
     const filtered = data.filter((order) => {
       const matchesTerm = term
@@ -46,7 +57,9 @@ const OrdersTable = ({ title }) => {
         : true;
       return matchesTerm;
     });
-    setFilteredOrders(filtered);
+    const sortedFiltered = filtered.sort((a, b) => b.timestamp - a.timestamp);
+
+    setFilteredOrders(sortedFiltered);
   };
 
   return (

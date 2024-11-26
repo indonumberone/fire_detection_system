@@ -17,11 +17,18 @@ export async function parseDataToTable(time, startDate, endDate) {
       minute: "2-digit",
     });
 
+    // return {
+    //   status: row._value,
+    //   date: date,
+    //   time: timeStr,
+    // };
     return {
       status: row._value,
       date: date,
       time: timeStr,
+      timestamp: dateObj.getTime(), 
     };
+    
   });
 console.log(parsedData)
   return parsedData;
