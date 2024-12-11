@@ -79,7 +79,6 @@ export default async function handler(sock, m) {
               reply("Please Wait...");
               const data = await getData("Pasca");
               // console.log(data.data);
-              // console.log("bejir");
               const { sensor, system_status, risk, tempat } = data.data;
               const balas = await returnMessage(
                 sensor,

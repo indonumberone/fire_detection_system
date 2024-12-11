@@ -14,9 +14,6 @@ import { webhook } from "./lib/webhook.js";
 import { rateLimit } from "express-rate-limit";
 import cors from "cors";
 
-export const app = express();
-export const port = 3030;
-
 async function connectToWhatsApp() {
   const { state, saveCreds } = await useMultiFileAuthState("login");
   const { version, isLatest } = await fetchLatestBaileysVersion();
@@ -58,6 +55,8 @@ async function connectToWhatsApp() {
     });
   });
 }
+export const app = express();
+export const port = 3030;
 
 app.use(cors());
 const limiter = rateLimit({

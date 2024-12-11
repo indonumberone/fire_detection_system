@@ -5,9 +5,8 @@ import Header from "../Components/common/Header";
 import StatCard from "../Components/common/StatCard";
 import Linechart2 from "../Components/chartandgraph/Linechart2";
 import { Piechart } from "../Components/chartandgraph/Piechart";
-import Histogram2 from "../Components/chartandgraph/Histogram2";
 import Histogram from "../Components/chartandgraph/Histogram";
-import {TableRisk} from "../Components/chartandgraph/TableRisk";
+import { TableRisk } from "../Components/chartandgraph/TableRisk";
 const Home = () => {
   const [isStatusView, setIsStatusView] = useState(false);
   const [liveData, setLiveData] = useState({});
@@ -15,7 +14,7 @@ const Home = () => {
   console.log("jalannnnnnnnn woiiiii");
 
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://34.142.249.25:1880/testing");
+    socketRef.current = new WebSocket("ws://localhost:1880/testing");
 
     socketRef.current.onopen = () => {
       console.log("Koneksi WebSocket berhasil!");
