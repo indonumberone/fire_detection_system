@@ -1,14 +1,14 @@
 import { app } from "../index.js";
 import { returnMessage } from "./returnMessage.js";
-// let i = 0;
+import "dotenv/config";
 export const webhook = async (sock) => {
   app.post("/webhook", async (req, res) => {
     try {
       if (
-        !req.body ||
-        !req.body.sensor ||
-        !req.body.risk ||
-        !req.body.system_status ||
+        !req.body &&
+        !req.body.sensor &&
+        !req.body.risk &&
+        !req.body.system_status &&
         !req.body.tempat
       ) {
         console.log(req.body);
@@ -23,7 +23,7 @@ export const webhook = async (sock) => {
         ""
       );
       console.log(balas);
-      await sock.sendMessage("120363310840644091@g.us", {
+      await sock.sendMessage(process.env.SENDHOOK, {
         text: balas,
       });
       res.status(200).send("berhasil terkirim");

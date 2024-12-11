@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   bot:
@@ -45,19 +45,6 @@ services:
       - INFLUXDB_HTTP_CORS_ORIGINS=*
     volumes:
       - ./influxdb-data:/var/lib/influxdb2
-    networks:
-      - nodered_influxdb_grafana
-
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
-    volumes:
-      - ./grafana-data:/var/lib/grafana
     networks:
       - nodered_influxdb_grafana
 

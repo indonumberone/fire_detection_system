@@ -47,6 +47,12 @@
             },
             "tours": {
                 "welcome": "4.0.5"
+            },
+            "dialog": {
+                "export": {
+                    "pretty": true,
+                    "json-view": false
+                }
             }
         }
     }

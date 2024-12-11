@@ -44,15 +44,11 @@
 #define FLAME_DEBOUNCE 3  // Jumlah minimal deteksi api untuk konfirmasi
 #define HIGH_RISK_TIME 5  // Jumlah interval untuk peringatan risiko tinggi
 
-
-
-
-
-
-
-
 #define RL_VALUE (5)                // Load resistance in kilo ohms
 #define RO_CLEAN_AIR_FACTOR (9.83)  // Clean air factor for Ro calculation
+
+
+
 
 
 /********Software Related Macros*************/
@@ -74,8 +70,8 @@ int smoke_ppm;
 TaskHandle_t taskMQCalibration = NULL;
 
 
-char ssid[] = "tehyung_oppa";
-char password[] = "39267207";
+char ssid[] = "Gw";
+char password[] = "1234567899";
 char mqtt_user[] = "gebanglor";
 char mqtt_password[] = "pusatteknologi";
 
@@ -163,11 +159,6 @@ void vTaskMQCalibration(void *param) {
  }
 }
 
-
-
-
-
-
 void vTaskACTION(void *param) {
  for (;;) {
    if (buzzerStatus == 1) {
@@ -176,8 +167,6 @@ void vTaskACTION(void *param) {
      tone(BUZZERPIN, 0);
      vTaskDelay(400 / portTICK_PERIOD_MS);
      digitalWrite(PUMPPIN, LOW);
-
-
    } else if (buzzerStatus == 2) {
      for (int i = 0; i < 15; i++) {
        digitalWrite(PUMPPIN, HIGH);
@@ -192,21 +181,9 @@ void vTaskACTION(void *param) {
      digitalWrite(PUMPPIN, LOW);
    }
    tone(BUZZERPIN, 0);
-
-
-
-
    vTaskDelay(1000 / portTICK_PERIOD_MS);
-   //tambah pompa ne
  }
 }
-
-
-
-
-
-
-
 
 float calcMembership(float value, float low, float high, bool isAscending) {
  if (isAscending) {
@@ -224,20 +201,12 @@ float calcMembership(float value, float low, float high, bool isAscending) {
 // Evaluasi suhu pake Fuzzy Logic
 float evalTemp(float temp) {
  float risk = 0.0;
-
-
-
-
  // Menghitung tingkat keanggotaan buat setiap kategori temperatur
  float normalMembership = calcMembership(temp, TEMP_SAFE, TEMP_WARNING, false);
  float warningMembership = calcMembership(temp, TEMP_WARNING, TEMP_DANGER, true);
  float dangerMembership = calcMembership(temp, TEMP_DANGER, TEMP_CRITICAL, true);
-
-
  // Menghitung risiko berdasarkan tingkat keanggotaan
  risk = max(warningMembership * 0.5, dangerMembership * 1.0);
-
-
  return risk;
 }
 
@@ -245,8 +214,6 @@ float evalTemp(float temp) {
 // Evaluasi kelembaban pake Fuzzy Logic
 float evalHumidity(float hum) {
  float risk = 0.0;
-
-
  // Menghitung tingkat keanggotaan buat setiap kategori kelembaban
  float veryLowMembership = calcMembership(hum, HUM_VERY_LOW, HUM_LOW, false);
  float lowMembership = calcMembership(hum, HUM_LOW, HUM_OPTIMAL, false);
@@ -286,18 +253,12 @@ void evalAverage() {
  float tempRisk = evalTemp(temperature);
  float humRisk = evalHumidity(humidity);
  float gasRisk = evalGas(gas_ppm);
-
-
  // Menghitung risiko keseluruhan dengan pembobotan dari hasil yang didapat
- riskLevel = (tempRisk * 0.3 + humRisk * 0.1 + gasRisk * 0.6);
-
-
+ riskLevel = (tempRisk * 0.3 + humRisk * 0.2 + gasRisk * 0.6);
  // Meningkatkan risiko jika api terdeteksi
  if (flameDetected) {
    riskLevel = min(1.0, riskLevel + 0.5);
  }
-
-
  // Menentukan status sistem berdasarkan level risiko
  if (riskLevel >= 0.8) {
    systemStatus = "CRITICAL";
@@ -322,13 +283,9 @@ void evalAverage() {
    pumpStatus = false;
  }
 }
-
-
 // Fungsi untuk mendapatkan rekomendasi tindakan
 String getActionRecommendation() {
  String actions = "Rekomendasi: ";
-
-
  if (evalTemp(temperature) > 0.5) {
    actions += "Aktifkan pendinginan; ";
  }
@@ -427,27 +384,20 @@ void vTaskMQ2(void *param) {
 
 void vTaskFLAME(void *param) {
  for (;;) {
-   int flameCount = 0;  // Menghitung deteksi api
-
-
-   // Mengambil sampel sebanyak 5 kali
+   int flameCount = 0;  
    for (int i = 0; i < 5; i++) {
-     if (digitalRead(FLAMEPIN) == LOW) {  // Deteksi api jika nilai pin rendah
+     if (digitalRead(FLAMEPIN) == LOW) { 
        flameCount++;
      }
-     vTaskDelay(20 / portTICK_PERIOD_MS);  // Tunggu 20 ms sebelum sampel berikutnya
+     vTaskDelay(20 / portTICK_PERIOD_MS);  
    }
 
-
-   // Jika flameCount >= 3, nyatakan bahwa api terdeteksi. Jika tidak, nyatakan bahwa tidak ada api.
    if (flameCount >= 3) {
-     flameDetected = 1;  // Api terdeteksi
+     flameDetected = 1;  
    } else {
-     flameDetected = 0;  // Tidak ada api
+     flameDetected = 0;  
    }
 
-
-   // Menunggu 500 ms sebelum memulai proses pengecekan ulang
    vTaskDelay(500 / portTICK_PERIOD_MS);
  }
 }
@@ -456,13 +406,9 @@ void vTaskFLAME(void *param) {
 
 
 void vTaskSHOW(void *param) {
-
-
  for (;;) {
    evalAverage();
    String recommendations = getActionRecommendation();
-
-
    Serial.println("\n=== Status Sensor ===");
    Serial.println("Suhu: " + String(temperature, 1) + "°C (Risk: " + String(evalTemp(temperature), 2) + ")");
    Serial.println("Kelembaban: " + String(humidity, 1) + "% (Risk: " + String(evalHumidity(humidity), 2) + ")");
@@ -472,14 +418,8 @@ void vTaskSHOW(void *param) {
    Serial.println("Level Risiko: " + String(riskLevel, 2));
    Serial.println("Status Detail: " + detailedStatus);
    Serial.println("Pompa: " + String(pumpStatus ? "HIDUP" : "MATI"));
-
-
-
-
    Serial.println(recommendations);
    Serial.println("==================\n");
-
-
    vTaskDelay(1000 / portTICK_PERIOD_MS);
  }
 }
@@ -494,42 +434,25 @@ void vTaskMQTT(void *param) {
    }
    client.loop();
    evalAverage();
-   // Buat JSON dokumen utama
    DynamicJsonDocument doc(3072);
-
-
-   // client.publish("/ppppp", "hallo");
-   // Menambahkan data sensor
    JsonObject sensor = doc.createNestedObject("sensor");
    sensor["temperature"] = temperature;
    sensor["humidity"] = humidity;
    sensor["gas"] = gas_ppm;
    sensor["flame"] = flameDetected ? 1 : 0;
-
-
-   // Menambahkan status sistem
    JsonObject systemStatusObj = doc.createNestedObject("system_status");
    systemStatusObj["status"] = systemStatus;
    systemStatusObj["risk_level"] = riskLevel;
    systemStatusObj["detailed_status"] = detailedStatus;
-
-
-   // Menambahkan level risiko individual
    JsonObject risk = doc.createNestedObject("risk");
    risk["temperature_risk"] = evalTemp(temperature);
    risk["humidity_risk"] = evalHumidity(humidity);
    risk["gas_risk"] = evalGas(gas_ppm);
-
-
-
-
    char jsonBuffer[3072];
    serializeJson(doc, jsonBuffer);
    size_t jsonSize = strlen(jsonBuffer);
    Serial.print("JSON size: ");
    Serial.println(jsonSize);
-   // Serial.println(jsonBuffer);
-   // Publikasi data dalam bentuk JSON
    bool success = client.publish("system/ruangps", jsonBuffer);
    if (!success) {
      Serial.print("Failed to publish JSON data to MQTT: ");
@@ -547,7 +470,7 @@ void setup() {
  pinMode(FLAMEPIN, INPUT);
  pinMode(PUMPPIN, OUTPUT);
  dht.begin();
- xTaskCreate(vTaskMQCalibration, "MQCalibration", 4056, NULL, 1, &taskMQCalibration);
+xTaskCreate(vTaskMQCalibration, "MQCalibration", 4056, NULL, 1, &taskMQCalibration);
 }
 
 
